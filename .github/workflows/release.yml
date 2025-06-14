@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.14.0
+
+      - name: Build Linux
+        run: zig build -Doptimize=ReleaseFast -Dtarget=x86_64-linux
+
+      - name: Rename Linux binary
+        run: mv zig-out/bin/lsx lsx-linux-x86_64
+
+      - name: Build Windows
+        run: zig build -Doptimize=ReleaseFast -Dtarget=x86_64-windows
+
+      - name: Rename Windows binary
+        run: mv zig-out/bin/lsx.exe lsx-windows-x86_64.exe
+
+      - name: Build macOS Intel
+        run: zig build -Doptimize=ReleaseFast -Dtarget=x86_64-macos
+
+      - name: Rename macOS Intel binary
+        run: mv zig-out/bin/lsx lsx-macos-x86_64
+
+      - name: Build macOS ARM
+        run: zig build -Doptimize=ReleaseFast -Dtarget=aarch64-macos
+
+      - name: Rename macOS ARM binary
+        run: mv zig-out/bin/lsx lsx-macos-arm64
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            lsx-linux-x86_64
+            lsx-windows-x86_64.exe
+            lsx-macos-x86_64
+            lsx-macos-arm64
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

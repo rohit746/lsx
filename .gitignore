@@ -1,0 +1,47 @@
+# Zig build artifacts
+zig-out/
+zig-cache/
+.zig-cache/
+
+# Release artifacts
+dist/
+release/
+artifacts/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Backup files
+*.bak
+*.orig
+
+# Log files
+*.log
+
+# Test coverage
+coverage/
+
+# Local configuration
+.env
+.local
+
+# Git-specific
+*.patch
+*.diff
+
+# Development tools
+.devcontainer/
+.vscode/settings.json
+
+# Package manager
+node_modules/
+package-lock.json

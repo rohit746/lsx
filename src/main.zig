@@ -412,6 +412,27 @@ pub fn main() !void {
         } else if (std.mem.eql(u8, arg, "-h") or std.mem.eql(u8, arg, "--help")) {
             printUsage();
             return;
+        } else if (arg[0] == '-' and arg.len > 1 and arg[1] != '-') {
+            // Handle combined short flags (e.g., -la, -ltr, etc.)
+            for (arg[1..]) |flag_char| {
+                switch (flag_char) {
+                    'a' => config.show_hidden = true,
+                    'l' => config.long_format = true,
+                    'S' => config.sort_by_size = true,
+                    't' => config.sort_by_time = true,
+                    'r' => config.reverse_sort = true,
+                    'p' => config.show_permissions = true,
+                    'h' => {
+                        printUsage();
+                        return;
+                    },
+                    else => {
+                        print("lsx: unknown option '-{c}'\n", .{flag_char});
+                        print("Try 'lsx --help' for more information.\n", .{});
+                        return;
+                    },
+                }
+            }
         } else if (arg[0] != '-') {
             try paths.append(arg);
         } else {

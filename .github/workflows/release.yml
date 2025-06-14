@@ -22,25 +22,25 @@ jobs:
           version: 0.14.0
 
       - name: Build Linux
-        run: zig build -Doptimize=ReleaseFast -Dtarget=x86_64-linux
+        run: zig build -Doptimize=ReleaseSmall -Dtarget=x86_64-linux
 
       - name: Rename Linux binary
         run: mv zig-out/bin/lsx lsx-linux-x86_64
 
       - name: Build Windows
-        run: zig build -Doptimize=ReleaseFast -Dtarget=x86_64-windows
+        run: zig build -Doptimize=ReleaseSmall -Dtarget=x86_64-windows
 
       - name: Rename Windows binary
         run: mv zig-out/bin/lsx.exe lsx-windows-x86_64.exe
 
       - name: Build macOS Intel
-        run: zig build -Doptimize=ReleaseFast -Dtarget=x86_64-macos
+        run: zig build -Doptimize=ReleaseSmall -Dtarget=x86_64-macos
 
       - name: Rename macOS Intel binary
         run: mv zig-out/bin/lsx lsx-macos-x86_64
 
       - name: Build macOS ARM
-        run: zig build -Doptimize=ReleaseFast -Dtarget=aarch64-macos
+        run: zig build -Doptimize=ReleaseSmall -Dtarget=aarch64-macos
 
       - name: Rename macOS ARM binary
         run: mv zig-out/bin/lsx lsx-macos-arm64
